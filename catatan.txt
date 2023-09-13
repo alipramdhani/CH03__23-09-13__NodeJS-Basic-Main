@@ -1,0 +1,22 @@
+Catatan : Rabu, 13-09-2023
+
+
+--- Pembahasan
+* pembahasan tentang node js node js core module
+* penggunaan module dan cara baca di dokumentasi vs code nya
+* asynchronous vs synchronous
+* callback function
+* http server
+* routing
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+- routing dengan url module
+- fs write and read file
+- create a very simple api yang membaca data dari file json
+
+
+--- Tutorial
+* cara masuk ke server node.js adalah ketik -> node
+* cara exit dari server node.js adalah kelik -> .exit / ctrl+D / ctrl+C 2x
+* cara membaca file dalam nodeJs => fs.readFileSync('./file', 'utf-8');
+* cara membuat file pada nodeJs => fs.writeFileSync('./file', 'isi_file');
+* cara membuat callback -> '(() => { })'

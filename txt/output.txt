@@ -1,0 +1,1 @@
+kalimat ini akan muncul di file output.txt
