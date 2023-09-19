@@ -46,38 +46,75 @@ const url = require('url');
 // });
 // console.log('hai FSW 2 nunggu read file yah?');
 
-//////////////////////////////////////
-//SERVER dengan HTTP
-const server = http.createServer((req, res) => {
-    // console.log(req, url);
-    const pathName = req.url;
+/////////////////////////////////////////
+// SERVER dengan HTTP
+const replaceTemplate = (template, product) => {
+    let output = template.replace(/{%PRODUCTNAME%}/g, product.productName);
+    output = output.replace(/{%IMAGE%}/g, product.image);
+    output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    output = output.replace(/{%PRICE%}/g, product.price);
+    output = output.replace(/{%DESCRIPTION%}/g, product.description);
+    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
+    output = output.replace(/{%FROM%}/g, product.from);
+    output = output.replace(/{%ID%}/g, product.id);
 
-    if(pathName === '/hello') {
+    if (!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+    return output;
+}
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
+
+const overviewPage = fs.readFileSync(`${__dirname}/templates/overview.html`, 'utf-8');
+const productTemplate = fs.readFileSync(`${__dirname}/templates/product.html`, 'utf-8');
+const productCardTemplate = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8');
+
+const server = http.createServer((req, res) => {
+    const { pathname: pathName, query } = url.parse(req.url, true);
+    console.log(pathName)
+    console.log(query)
+
+    // HELLO PAGE 
+    if (pathName === '/hello') {
         res.end('ini hello ke FSW 2')
-    } else if (pathName === '/product') {
-        res.end(JSON.stringify({
-            data: 'Ini data product!',
-        }));
-    } else if (pathName === '/api'){
-        const data = fs.readFileSync(`${__dirname}/dev-data/data.json`);
+
+        // simple api
+    } else if (pathName === '/api') {
         res.writeHead(200, {
-            'content-type': 'application/json'
-        })
+            'Content-type': 'application/json'
+        });
         res.end(data);
-    } else if (pathName === '/overview'){
-        const overviewPage = fs.readFileSync(`${__dirname}/templates/overview.html`);
+
+        // overview page 
+    } else if (pathName === '/overview') {
         res.writeHead(200, {
-            'content-type': 'text/html'
+            'Content-type': 'text/html'
         })
-        res.end(overviewPage);
+
+        const productCardsHtml = dataObj.map(el => replaceTemplate(productCardTemplate, el));
+        const output = overviewPage.replace('{%PRODUCT_CARDS%', productCardsHtml);
+
+        res.end(output);
+
+
+        //  product page
+    } else if (pathName === '/product') {
+        console.log(query)
+        res.writeHead(200, {
+            'Content-type': 'text/html'
+        })
+        const product = dataObj[query.id];
+        const output = replaceTemplate(productTemplate, product);
+        res.end(output);
+        
     } else {
         res.writeHead(404, {
-            'content-type': 'text/html'
+            'Content-type': 'text/html'
         })
-        res.end('<h1> halaman tidak ditemukan </h1>')
+        res.end('<h1>url ini gak ada apa2 bestie!!!</h1>');
     }
 });
 
 server.listen(8000, '127.0.0.1', () => {
-    console.log('Server berjalan!');
+    console.log('Hello Server nya Jalann!!!');
 });

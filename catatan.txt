@@ -20,3 +20,15 @@ Catatan : Rabu, 13-09-2023
 * cara membaca file dalam nodeJs => fs.readFileSync('./file', 'utf-8');
 * cara membuat file pada nodeJs => fs.writeFileSync('./file', 'isi_file');
 * cara membuat callback -> '(() => { })'
+
+
+Catatan : Rabu, 18-09-2023
+--- Pembahasan
+* Request Query : /product?
+* Request Param : /product/
+* query string dari request query url
+* ngoding dinamis data dengan menggunakan data.json dan html dibantu fs module untuk membaca kedua nya
+* placeholder di html file untuk dinamis data
+
+--- Tutorial
+* Placeholder : {%PLACEHOLDER%}
