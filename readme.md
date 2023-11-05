@@ -14,6 +14,6 @@ localhost:8000/overiview
 
 ### 3. Play Node Farm Application!
 
-### Drumkit App
+### Node Farm App
 
 ![NodeFarm](/images/overiview-nodefarm.png)
